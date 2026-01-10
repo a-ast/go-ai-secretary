@@ -10,6 +10,9 @@ import (
 	agentpkg "github.com/a-ast/go-ai-assistant/internal/agent"
 )
 
+/*
+* Implements a Read-Eval-Print Loop (REPL) for the AI assistant.
+ */
 func RunREPL(ctx context.Context, app *agentpkg.App, sessionID string) error {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
