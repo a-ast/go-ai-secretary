@@ -14,8 +14,8 @@ import (
 
 func main() {
 	const defaultNotionURL = "https://mcp.notion.com/mcp"
+	const defaultModel = "gemini-2.5-flash"
 	var (
-		modelName   = flag.String("model", "gemini-2.5-flash", "Gemini model name, e.g. gemini-2.5-flash")
 		notionToken = flag.String("notion_token", "", "Notion access token (see docs)")
 		sessionID   = flag.String("session", "default", "Session ID (keeps chat history in-memory per session)")
 		verbose     = flag.Bool("v", false, "Verbose: print tool activity")
@@ -34,7 +34,7 @@ func main() {
 	}()
 
 	app, err := agentpkg.NewApp(ctx, agentpkg.Config{
-		ModelName:   *modelName,
+		ModelName:   defaultModel,
 		NotionURL:   defaultNotionURL,
 		NotionToken: *notionToken,
 		Verbose:     *verbose,
