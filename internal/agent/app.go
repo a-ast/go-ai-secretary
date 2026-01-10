@@ -38,9 +38,6 @@ type App struct {
 }
 
 func NewApp(ctx context.Context, cfg Config) (*App, error) {
-	if cfg.ModelName == "" {
-		cfg.ModelName = "gemini-2.5-flash"
-	}
 	apiKey := os.Getenv("GOOGLE_API_KEY")
 	if apiKey == "" {
 		return nil, errors.New("GOOGLE_API_KEY is not set")
@@ -148,9 +145,6 @@ func newNotionMCPToolset(cfg Config) (tool.Toolset, error) {
 		return nil, errors.New("notion_token is required; pass it via -notion_token")
 	}
 
-	if strings.TrimSpace(cfg.NotionURL) == "" {
-		return nil, errors.New("notion_url is required for streamable transport")
-	}
 	transport = &mcp.StreamableClientTransport{
 		Endpoint:   cfg.NotionURL,
 		HTTPClient: httpClient,
@@ -180,7 +174,8 @@ func isReadOnlyNotionTool(ctx agent.ReadonlyContext, t tool.Tool) bool {
 
 	// Explicit allows (cover both notion-* and openapi-ish names).
 	allowSubstrings := []string{
-		"notion-search", "notion-fetch",
+		// "notion-search",
+		"notion-fetch",
 		"search",            // e.g. post-search / search
 		"retrieve",          // retrieve-a-page, retrieve-a-block, retrieve-a-data-source
 		"get-",              // get-page, get-block-children, get-self
@@ -203,10 +198,11 @@ func instruction() string {
 You have access to tools that can READ data from Notion (tasks, pages, databases). You MUST NOT modify Notion: no create, update, delete, move, archive, append, or any write operations.
 
 When the user asks about their TODOs:
-- Use the Notion tools to find relevant tasks.
-- Summarize the current state (what, status, due dates, blockers) concisely.
-- Give actionable next steps (1-5 steps), focusing on the highest leverage.
-- If information is missing, ask a single clarifying question.
+- Use notion_fetch to access https://www.notion.so/a-ast/b30702979243411fb71737dec7d10fa0?v=de9f6aecb5c947169eab5e1208a1fa6e
+- Summarize the current state, list all fields of a TODO item
+- List all tasks 
+- Analyze all tasks together and look for patterns, for potential connections between tasks
+- If information is missing, ask a single clarifying question
 
 If the user requests any change in Notion, refuse politely and explain that you are read-only.`)
 }
