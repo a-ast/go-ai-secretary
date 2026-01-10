@@ -13,10 +13,10 @@ import (
 )
 
 func main() {
+	const defaultNotionURL = "https://mcp.notion.com/mcp"
 	var (
 		modelName   = flag.String("model", "gemini-2.5-flash", "Gemini model name, e.g. gemini-2.5-flash")
-		notionURL   = flag.String("notion_url", "https://mcp.notion.com/mcp", "Remote Notion MCP server URL (used for sse/streamable transports)")
-		notionToken = flag.String("notion_token", "", "Notion token (overrides NOTION_TOKEN env var)")
+		notionToken = flag.String("notion_token", "", "Notion access token (see docs)")
 		sessionID   = flag.String("session", "default", "Session ID (keeps chat history in-memory per session)")
 		verbose     = flag.Bool("v", false, "Verbose: print tool activity")
 	)
@@ -35,7 +35,7 @@ func main() {
 
 	app, err := agentpkg.NewApp(ctx, agentpkg.Config{
 		ModelName:   *modelName,
-		NotionURL:   *notionURL,
+		NotionURL:   defaultNotionURL,
 		NotionToken: *notionToken,
 		Verbose:     *verbose,
 	})
