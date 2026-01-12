@@ -38,4 +38,4 @@ This is a Go CLI application that provides an AI-powered assistant for managing 
 - Adding new tools: Extend `allowSubstrings` in `isReadOnlyNotionTool()` for new read operations
 - Modifying agent behavior: Update `instruction()` function with new prompt text
 - CLI commands: Add new `/command` cases in `RunREPL()` switch statement</content>
-<parameter name="filePath">/Users/orso/Projects/go-ai-secretary/.github/copilot-instructions.md
+<parameter name="filePath">.github/copilot-instructions.md
